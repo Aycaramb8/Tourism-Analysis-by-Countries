@@ -48,6 +48,21 @@ df_arrival = df_arrival.rename(columns = {"Basic data and indicators" : "Country
 
 # Drop columns from 1995 to 1999
 df_arrival = df_arrival.drop(columns=[col for col in df_arrival.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_arrival['Indicator_Unit'] = df_arrival['Indicators'] + " (" + df_arrival['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_arrival = df_arrival.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_arrival = pd.melt(df_arrival, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_arrival = df_arrival.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_arrival = df_arrival.reset_index()
 ```
 
 ```{python}
@@ -83,6 +98,21 @@ df_by_region = df_by_region.rename(columns = {"Basic data and indicators" : "Cou
 
 # Drop columns from 1995 to 1999
 df_by_region = df_by_region.drop(columns=[col for col in df_by_region.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_by_region['Indicator_Unit'] = df_by_region['Indicators'] + " (" + df_by_region['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_by_region = df_by_region.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_by_region = pd.melt(df_by_region, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_by_region = df_by_region.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_by_region = df_by_region.reset_index()
 ```
 
 ```{python}
@@ -118,6 +148,21 @@ df_purpose = df_purpose.rename(columns = {"Basic data and indicators" : "Country
 
 # Drop columns from 1995 to 1999
 df_purpose = df_purpose.drop(columns=[col for col in df_purpose.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_purpose['Indicator_Unit'] = df_purpose['Indicators'] + " (" + df_purpose['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_purpose = df_purpose.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_purpose = pd.melt(df_purpose, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_purpose = df_purpose.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_purpose = df_purpose.reset_index()
 ```
 
 ```{python}
@@ -153,6 +198,21 @@ df_transport = df_transport.rename(columns = {"Basic data and indicators" : "Cou
 
 # Drop columns from 1995 to 1999
 df_transport = df_transport.drop(columns=[col for col in df_transport.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_transport['Indicator_Unit'] = df_transport['Indicators'] + " (" + df_transport['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_transport = df_transport.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_transport = pd.melt(df_transport, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_transport = df_transport.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_transport = df_transport.reset_index()
 ```
 
 ```{python}
@@ -196,6 +256,21 @@ df_accommodation = df_accommodation.rename(columns = {"Basic data and indicators
 
 # Drop columns from 1995 to 1999
 df_accommodation = df_accommodation.drop(columns=[col for col in df_accommodation.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_accommodation['Indicator_Unit'] = df_accommodation['Indicators'] + " (" + df_accommodation['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_accommodation = df_accommodation.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_accommodation = pd.melt(df_accommodation, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_accommodation = df_accommodation.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_accommodation = df_accommodation.reset_index()
 ```
 
 ```{python}
@@ -231,6 +306,21 @@ df_expend = df_expend.rename(columns = {"Basic data and indicators" : "Country"}
 
 # Drop columns from 1995 to 1999
 df_expend = df_expend.drop(columns=[col for col in df_expend.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_expend['Indicator_Unit'] = df_expend['Indicators'] + " (" + df_expend['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_expend = df_expend.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_expend = pd.melt(df_expend, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_expend = df_expend.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_expend = df_expend.reset_index()
 ```
 
 ```{python}
@@ -266,6 +356,21 @@ df_domestic = df_domestic.rename(columns = {"Basic data and indicators" : "Count
 
 # Drop columns from 1995 to 1999
 df_domestic = df_domestic.drop(columns=[col for col in df_domestic.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_domestic['Indicator_Unit'] = df_domestic['Indicators'] + " (" + df_domestic['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_domestic = df_domestic.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_domestic = pd.melt(df_domestic, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_domestic = df_domestic.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_domestic = df_domestic.reset_index()
 ```
 
 ```{python}
@@ -309,6 +414,21 @@ df_domestic_accommodation = df_domestic_accommodation.rename(columns = {"Basic d
 
 # Drop columns from 1995 to 1999
 df_domestic_accommodation = df_domestic_accommodation.drop(columns=[col for col in df_domestic_accommodation.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_domestic_accommodation['Indicator_Unit'] = df_domestic_accommodation['Indicators'] + " (" + df_domestic_accommodation['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_domestic_accommodation = df_domestic_accommodation.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_domestic_accommodation = pd.melt(df_domestic_accommodation, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_domestic_accommodation = df_domestic_accommodation.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_domestic_accommodation = df_domestic_accommodation.reset_index()
 ```
 
 ```{python}
@@ -344,6 +464,21 @@ df_departures = df_departures.rename(columns = {"Basic data and indicators" : "C
 
 # Drop columns from 1995 to 1999
 df_departures = df_departures.drop(columns=[col for col in df_departures.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_departures['Indicator_Unit'] = df_departures['Indicators'] + " (" + df_departures['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_departures = df_departures.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_departures = pd.melt(df_departures, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_departures = df_departures.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_departures = df_departures.reset_index()
 ```
 
 ```{python}
@@ -379,6 +514,21 @@ df_outbound_expend = df_outbound_expend.rename(columns = {"Basic data and indica
 
 # Drop columns from 1995 to 1999
 df_outbound_expend = df_outbound_expend.drop(columns=[col for col in df_outbound_expend.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_outbound_expend['Indicator_Unit'] = df_outbound_expend['Indicators'] + " (" + df_outbound_expend['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_outbound_expend = df_outbound_expend.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_outbound_expend = pd.melt(df_outbound_expend, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_outbound_expend = df_outbound_expend.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_outbound_expend = df_outbound_expend.reset_index()
 ```
 
 ```{python}
@@ -414,6 +564,21 @@ df_industry = df_industry.rename(columns = {"Basic data and indicators" : "Count
 
 # Drop columns from 1995 to 1999
 df_industry = df_industry.drop(columns=[col for col in df_industry.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_industry['Indicator_Unit'] = df_industry['Indicators'] + " (" + df_industry['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_industry = df_industry.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_industry = pd.melt(df_industry, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_industry = df_industry.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_industry = df_industry.reset_index()
 ```
 
 ```{python}
@@ -449,6 +614,21 @@ df_employment = df_employment.rename(columns = {"Basic data and indicators" : "C
 
 # Drop columns from 1995 to 1999
 df_employment = df_employment.drop(columns=[col for col in df_employment.columns if isinstance(col, int) and 1995 <= col <= 1999])
+
+# Combine the 'Indicators' and 'Units'
+df_employment['Indicator_Unit'] = df_employment['Indicators'] + " (" + df_employment['Units'] + ")"
+
+# Drop the original 'Indicators' and 'Units' columns
+df_employment = df_employment.drop(['Indicators', 'Units'], axis=1)
+
+# Melt the df
+df_employment = pd.melt(df_employment, id_vars=['Country', 'Indicator_Unit'], var_name='Years', value_name='Values')
+
+# Pivot to make 'Indicator_Unit' values as columns
+df_employment = df_employment.pivot_table(index=['Country', 'Years'], columns='Indicator_Unit', values='Values', aggfunc='first')
+
+# Reset index
+df_employment = df_employment.reset_index()
 ```
 
 ```{python}
