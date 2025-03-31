@@ -1,0 +1,475 @@
+# Data Cleaning
+
+Here is all the cleaning
+
+## Import
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+## Clean tourism data
+
+```{python}
+# Load the Excel file
+excel_file = pd.ExcelFile('Raw_data/unwto.xlsx')
+
+# Check the sheet names
+print(excel_file.sheet_names)
+```
+
+### Clean arrival
+
+```{python}
+# Load sheets
+df_arrival = excel_file.parse(' Inbound Tourism-Arrivals')
+
+# Remove irrelevant info
+df_arrival.columns = df_arrival.iloc[1]
+df_arrival = df_arrival.iloc[2:, 3:]
+print(df_arrival.head(25))
+
+# Fill countries
+df_arrival['Basic data and indicators'] = df_arrival['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_arrival['Indicators'] = df_arrival.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_arrival = df_arrival.drop(df_arrival.columns[1:5], axis=1)
+df_arrival.insert(1, 'Indicators', df_arrival.pop('Indicators'))
+df_arrival = df_arrival.drop(columns=['Notes', 'Series'])
+df_arrival = df_arrival.dropna(subset=['Units'])
+
+# Change nan
+df_arrival.replace('..', np.nan, inplace=True)
+
+# Rename
+df_arrival = df_arrival.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_arrival = df_arrival.drop(columns=[col for col in df_arrival.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_arrival.to_csv('Processed_data/arrival.csv', index=False)
+```
+
+### Clean regions
+
+```{python}
+df_by_region = excel_file.parse('Inbound Tourism-Regions')
+
+# Remove irrelevant info
+df_by_region.columns = df_by_region.iloc[1]
+df_by_region = df_by_region.iloc[2:, 3:]
+print(df_by_region.head(25))
+
+# Fill countries
+df_by_region['Basic data and indicators'] = df_by_region['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_by_region['Indicators'] = df_by_region.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_by_region = df_by_region.drop(df_by_region.columns[1:5], axis=1)
+df_by_region.insert(1, 'Indicators', df_by_region.pop('Indicators'))
+df_by_region = df_by_region.drop(columns=['Notes', 'Series'])
+df_by_region = df_by_region.dropna(subset=['Units'])
+
+# Change nan
+df_by_region.replace('..', np.nan, inplace=True)
+
+# Rename
+df_by_region = df_by_region.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_by_region = df_by_region.drop(columns=[col for col in df_by_region.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_by_region.to_csv('Processed_data/regions.csv', index=False)
+```
+
+### Clean purpose
+
+```{python}
+df_purpose = excel_file.parse('Inbound Tourism-Purpose')
+
+# Remove irrelevant info
+df_purpose.columns = df_purpose.iloc[1]
+df_purpose = df_purpose.iloc[2:, 3:]
+print(df_purpose.head(25))
+
+# Fill countries
+df_purpose['Basic data and indicators'] = df_purpose['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_purpose['Indicators'] = df_purpose.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_purpose = df_purpose.drop(df_purpose.columns[1:5], axis=1)
+df_purpose.insert(1, 'Indicators', df_purpose.pop('Indicators'))
+df_purpose = df_purpose.drop(columns=['Notes', 'Series'])
+# df_purpose = df_purpose.dropna(subset=['Units'])
+
+# Change nan
+df_purpose.replace('..', np.nan, inplace=True)
+
+# Rename
+df_purpose = df_purpose.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_purpose = df_purpose.drop(columns=[col for col in df_purpose.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_purpose.to_csv('Processed_data/purpose.csv', index=False)
+```
+
+### Clean transportation
+
+```{python}
+df_transport = excel_file.parse('Inbound Tourism-Transport')
+
+# Remove irrelevant info
+df_transport.columns = df_transport.iloc[1]
+df_transport = df_transport.iloc[2:, 3:]
+print(df_transport.head(25))
+
+# Fill countries
+df_transport['Basic data and indicators'] = df_transport['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_transport['Indicators'] = df_transport.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_transport = df_transport.drop(df_transport.columns[1:5], axis=1)
+df_transport.insert(1, 'Indicators', df_transport.pop('Indicators'))
+df_transport = df_transport.drop(columns=['Notes', 'Series'])
+df_transport = df_transport.dropna(subset=['Units'])
+
+# Change nan
+df_transport.replace('..', np.nan, inplace=True)
+
+# Rename
+df_transport = df_transport.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_transport = df_transport.drop(columns=[col for col in df_transport.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_transport.to_csv('Processed_data/transportation.csv', index=False)
+```
+
+### Clean accommodation
+
+```{python}
+df_accommodation = excel_file.parse('Inbound Tourism-Accommodation')
+
+# Remove irrelevant info
+df_accommodation.columns = df_accommodation.iloc[1]
+df_accommodation = df_accommodation.iloc[2:, 3:]
+print(df_accommodation.head(25))
+
+# Fill countries
+df_accommodation['Basic data and indicators'] = df_accommodation['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_accommodation['Indicators'] = df_accommodation.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_accommodation = df_accommodation.drop(df_accommodation.columns[1:5], axis=1)
+df_accommodation.insert(1, 'Indicators', df_accommodation.pop('Indicators'))
+df_accommodation = df_accommodation.drop(columns=['Notes'])
+
+# Iterate and modify next row values
+for i in range(len(df_accommodation) - 1):
+    if df_accommodation.iloc[i]['Indicators'] == 'Hotels and similar establishments':
+        # Modify the next row values
+        df_accommodation.iloc[i + 1, df_accommodation.columns.get_loc('Indicators')] = 'hotel_guests'
+        df_accommodation.iloc[i + 2, df_accommodation.columns.get_loc('Indicators')] = 'hotel_overnights'
+
+df_accommodation = df_accommodation.dropna(subset=['Units'])
+
+# Change nan
+df_accommodation.replace('..', np.nan, inplace=True)
+
+# Rename
+df_accommodation = df_accommodation.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_accommodation = df_accommodation.drop(columns=[col for col in df_accommodation.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_accommodation.to_csv('Processed_data/accommodation.csv', index=False)
+```
+
+### Clean expenditure
+
+```{python}
+df_expend = excel_file.parse('Inbound Tourism-Expenditure')
+
+# Remove irrelevant info
+df_expend.columns = df_expend.iloc[1]
+df_expend = df_expend.iloc[2:, 3:]
+print(df_expend.head(25))
+
+# Fill countries
+df_expend['Basic data and indicators'] = df_expend['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_expend['Indicators'] = df_expend.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_expend = df_expend.drop(df_expend.columns[1:5], axis=1)
+df_expend.insert(1, 'Indicators', df_expend.pop('Indicators'))
+df_expend = df_expend.drop(columns=['Notes', 'Series'])
+df_expend = df_expend.dropna(subset=['Units'])
+
+# Change nan
+df_expend.replace('..', np.nan, inplace=True)
+
+# Rename
+df_expend = df_expend.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_expend = df_expend.drop(columns=[col for col in df_expend.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_expend.to_csv('Processed_data/expenditure.csv', index=False)
+```
+
+### Clean domestic
+
+```{python}
+df_domestic = excel_file.parse('Domestic Tourism-Trips')
+
+# Remove irrelevant info
+df_domestic.columns = df_domestic.iloc[1]
+df_domestic = df_domestic.iloc[2:, 3:]
+print(df_domestic.head(25))
+
+# Fill countries
+df_domestic['Basic data and indicators'] = df_domestic['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_domestic['Indicators'] = df_domestic.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_domestic = df_domestic.drop(df_domestic.columns[1:5], axis=1)
+df_domestic.insert(1, 'Indicators', df_domestic.pop('Indicators'))
+df_domestic = df_domestic.drop(columns=['Notes'])
+df_domestic = df_domestic.dropna(subset=['Units'])
+
+# Change nan
+df_domestic.replace('..', np.nan, inplace=True)
+
+# Rename
+df_domestic = df_domestic.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_domestic = df_domestic.drop(columns=[col for col in df_domestic.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_domestic.to_csv('Processed_data/domestic.csv', index=False)
+```
+
+### Clean domestic accommodation
+
+```{python}
+df_domestic_accommodation = excel_file.parse('Domestic Tourism-Accommodation')
+
+# Remove irrelevant info
+df_domestic_accommodation.columns = df_domestic_accommodation.iloc[1]
+df_domestic_accommodation = df_domestic_accommodation.iloc[2:, 3:]
+print(df_domestic_accommodation.head(25))
+
+# Fill countries
+df_domestic_accommodation['Basic data and indicators'] = df_domestic_accommodation['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_domestic_accommodation['Indicators'] = df_domestic_accommodation.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_domestic_accommodation = df_domestic_accommodation.drop(df_domestic_accommodation.columns[1:5], axis=1)
+df_domestic_accommodation.insert(1, 'Indicators', df_domestic_accommodation.pop('Indicators'))
+df_domestic_accommodation = df_domestic_accommodation.drop(columns=['Notes'])
+
+# Iterate and modify next row values
+for i in range(len(df_domestic_accommodation) - 1):
+    if df_domestic_accommodation.iloc[i]['Indicators'] == 'Hotels and similar establishments':
+        # Modify the next row values
+        df_domestic_accommodation.iloc[i + 1, df_domestic_accommodation.columns.get_loc('Indicators')] = 'hotel_guests'
+        df_domestic_accommodation.iloc[i + 2, df_domestic_accommodation.columns.get_loc('Indicators')] = 'hotel_overnights'
+
+df_domestic_accommodation = df_domestic_accommodation.dropna(subset=['Units'])
+
+# Change nan
+df_domestic_accommodation.replace('..', np.nan, inplace=True)
+
+# Rename
+df_domestic_accommodation = df_domestic_accommodation.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_domestic_accommodation = df_domestic_accommodation.drop(columns=[col for col in df_domestic_accommodation.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_domestic_accommodation.to_csv('Processed_data/domestic_accommodation.csv', index=False)
+```
+
+### Clean departures
+
+```{python}
+df_departures = excel_file.parse('Outbound Tourism-Departures')
+
+# Remove irrelevant info
+df_departures.columns = df_departures.iloc[1]
+df_departures = df_departures.iloc[2:, 3:]
+print(df_departures.head(25))
+
+# Fill countries
+df_departures['Basic data and indicators'] = df_departures['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_departures['Indicators'] = df_departures.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_departures = df_departures.drop(df_departures.columns[1:5], axis=1)
+df_departures.insert(1, 'Indicators', df_departures.pop('Indicators'))
+df_departures = df_departures.drop(columns=['Notes'])
+df_departures = df_departures.dropna(subset=['Units'])
+
+# Change nan
+df_departures.replace('..', np.nan, inplace=True)
+
+# Rename
+df_departures = df_departures.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_departures = df_departures.drop(columns=[col for col in df_departures.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_departures.to_csv('Processed_data/departures.csv', index=False)
+```
+
+### Clean outbound expenditure
+
+```{python}
+df_outbound_expend = excel_file.parse('Outbound Tourism-Expenditure')
+
+# Remove irrelevant info
+df_outbound_expend.columns = df_outbound_expend.iloc[1]
+df_outbound_expend = df_outbound_expend.iloc[2:, 3:]
+print(df_outbound_expend.head(25))
+
+# Fill countries
+df_outbound_expend['Basic data and indicators'] = df_outbound_expend['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_outbound_expend['Indicators'] = df_outbound_expend.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_outbound_expend = df_outbound_expend.drop(df_outbound_expend.columns[1:5], axis=1)
+df_outbound_expend.insert(1, 'Indicators', df_outbound_expend.pop('Indicators'))
+df_outbound_expend = df_outbound_expend.drop(columns=['Notes', 'Series'])
+df_outbound_expend = df_outbound_expend.dropna(subset=['Units'])
+
+# Change nan
+df_outbound_expend.replace('..', np.nan, inplace=True)
+
+# Rename
+df_outbound_expend = df_outbound_expend.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_outbound_expend = df_outbound_expend.drop(columns=[col for col in df_outbound_expend.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_outbound_expend.to_csv('Processed_data/outbound_expend.csv', index=False)
+```
+
+### Clean industry related
+
+```{python}
+df_industry = excel_file.parse('Tourism Industries')
+
+# Remove irrelevant info
+df_industry.columns = df_industry.iloc[1]
+df_industry = df_industry.iloc[2:, 3:]
+print(df_industry.head(25))
+
+# Fill countries
+df_industry['Basic data and indicators'] = df_industry['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_industry['Indicators'] = df_industry.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_industry = df_industry.drop(df_industry.columns[1:5], axis=1)
+df_industry.insert(1, 'Indicators', df_industry.pop('Indicators'))
+df_industry = df_industry.drop(columns=['Notes'])
+df_industry = df_industry.dropna(subset=['Units'])
+
+# Change nan
+df_industry.replace('..', np.nan, inplace=True)
+
+# Rename
+df_industry = df_industry.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_industry = df_industry.drop(columns=[col for col in df_industry.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_industry.to_csv('Processed_data/industry.csv', index=False)
+```
+
+### Clean employment
+
+```{python}
+df_employment = excel_file.parse('Employment')
+
+# Remove irrelevant info
+df_employment.columns = df_employment.iloc[1]
+df_employment = df_employment.iloc[2:, 3:]
+print(df_employment.head(25))
+
+# Fill countries
+df_employment['Basic data and indicators'] = df_employment['Basic data and indicators'].fillna(method='ffill')
+
+# Combine columns 2, 3, 4, and 5 into one
+df_employment['Indicators'] = df_employment.iloc[:, 1:5].apply(lambda row: ' '.join(row.dropna().astype(str)), axis=1)
+df_employment = df_employment.drop(df_employment.columns[1:5], axis=1)
+df_employment.insert(1, 'Indicators', df_employment.pop('Indicators'))
+df_employment = df_employment.drop(columns=['Notes'])
+df_employment = df_employment.dropna(subset=['Units'])
+
+# Change nan
+df_employment.replace('..', np.nan, inplace=True)
+
+# Rename
+df_employment = df_employment.rename(columns = {"Basic data and indicators" : "Country"})
+
+# Drop columns from 1995 to 1999
+df_employment = df_employment.drop(columns=[col for col in df_employment.columns if isinstance(col, int) and 1995 <= col <= 1999])
+```
+
+```{python}
+# Save
+df_employment.to_csv('Processed_data/employment.csv', index=False)
+```
+
+
+
+```{python}
+# # Identify rows with selected countries
+# mask = df_arrival['Basic data and indicators'].isin(['CHINA', 'AUSTRALIA', 'UNITED STATES OF AMERICA', 'FRANCE', 'JAPAN'])
+
+# # Indices of the rows to be kept
+# rows_to_keep = []
+
+# # Loop through the df to find matching rows and the next 5 rows
+# for i in range(len(df_arrival)):
+#     if mask.iloc[i]:
+#         rows_to_keep.extend(range(i, min(i + 6, len(df_arrival))))
+
+# # Filter the df
+# df_arrival = df_arrival.iloc[rows_to_keep]
+```
