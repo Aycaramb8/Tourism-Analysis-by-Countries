@@ -1,1 +1,25 @@
 # Tourism Visualization
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("Processed_data/accommodation.csv") 
+
+
+df_albania = df[df["Country"] == "ALBANIA"]
+
+plt.figure(figsize=(10, 6))
+plt.plot(df_albania["Years"], df_albania["hotel_guests (Thousands)"], marker='o', label="Hotel Guests (Thousands)")
+plt.plot(df_albania["Years"], df_albania["hotel_overnights (Thousands)"], marker='s', label="Hotel Overnights (Thousands)")
+
+plt.xlabel("Years")
+plt.ylabel("Count (Thousands)")
+plt.title("Hotel Guests and Overnights in Albania")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+
+```
