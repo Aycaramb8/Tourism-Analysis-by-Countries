@@ -1,0 +1,64 @@
+---
+title: "Tourism Arrivals and Expenditure (2000–2020)"
+format: html
+jupyter: python3
+---
+
+## 📊 Tourism Arrivals and Expenditure for Selected Countries (2000–2020)
+
+This report compares the trends in total international tourist arrivals and tourism expenditure between 2000 and 2020 for China, United States, United Kingdom, France, and Spain. Solid lines represent arrivals, while dashed lines show expenditure.
+
+```{python}
+# Import required libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Set visual style
+sns.set(style="whitegrid")
+
+# Load the datasets
+arrival = pd.read_csv("Processed_data/arrival.csv")
+expenditure = pd.read_csv("Processed_data/expenditure.csv")
+
+# Ensure year is numeric
+arrival["Years"] = arrival["Years"].astype(int)
+expenditure["Years"] = expenditure["Years"].astype(int)
+
+# Merge datasets on Country and Years
+df = pd.merge(
+    arrival[["Country", "Years", "Total arrivals (Thousands)"]],
+    expenditure[["Country", "Years", "Tourism expenditure in the country (US$ Millions)"]],
+    on=["Country", "Years"],
+    how="inner"
+)
+
+# Filter for selected countries and year range
+selected_countries = ['CHINA', 'UNITED STATES OF AMERICA', 'UNITED KINGDOM', 'FRANCE', 'SPAIN']
+df = df[df["Country"].isin(selected_countries) & df["Years"].between(2000, 2020)]
+
+# Scale the values for readability
+df["Arrivals (Millions)"] = df["Total arrivals (Thousands)"] / 1000
+df["Expenditure (Billions USD)"] = df["Tourism expenditure in the country (US$ Millions)"] / 1000
+
+# Create the plot
+plt.figure(figsize=(14, 7))
+
+# Plot arrivals as solid lines
+for country in selected_countries:
+    data = df[df["Country"] == country]
+    plt.plot(data["Years"], data["Arrivals (Millions)"], label=f"{country} - Arrivals", linestyle='-')
+
+# Plot expenditure as dashed lines
+for country in selected_countries:
+    data = df[df["Country"] == country]
+    plt.plot(data["Years"], data["Expenditure (Billions USD)"], label=f"{country} - Expenditure", linestyle='--')
+
+# Final touches
+plt.title("Tourism Arrivals and Expenditure (2000–2020)")
+plt.xlabel("Year")
+plt.ylabel("Tourists (Millions) / Expenditure (Billions USD)")
+plt.legend(loc="center left", bbox_to_anchor=(1.0, 0.5))
+plt.tight_layout()
+plt.show()
+```
